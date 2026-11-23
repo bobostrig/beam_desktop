@@ -2,3 +2,10 @@
 - Asked: Suggest a blue background while keeping the watermark and offer other design suggestions. Changed: Recorded this request in prompts.md; no specification or app changes. Worked: Yes.
 - Asked: Keep beam analysis as the main view. Changed: Recorded this preference in prompts.md; no app or specification changes. Worked: Yes.
 - Asked: Commit the current workspace changes. Changed: Recorded this request in prompts.md before committing. Worked: Yes.
+- Asked: Check the validation case in spec.md. Changed: Checked its reactions and maximum moment against statics and recorded the request. Worked: Yes; stated values match.
+- Asked: Keep beam calculations separate from the window so they can be checked without opening the app. Changed: Added a standalone, independently verifiable calculation-module requirement to spec.md and recorded the request. Worked: Yes.
+- Asked: Build the Tkinter desktop app following the plan and spec.md. Changed: Added app.py, standalone beam_calculations.py, requirements.txt, and GUI-free calculation test cases; retained the beam analysis as the main view, blue background, watermark, mascot animation, and pinball tab. Worked: Implementation added; tests were not run.
+- Asked: Run all validation cases in spec.md and compare expected with actual beam calculation results. Changed: Executed the sole listed validation case using beam_calculations.py; recorded the request. Worked: Yes, all listed values matched.
+- Asked: Read spec.md and propose updates for a more modern app appearance before changing the spec or app. Changed: Recorded this request; no spec or app changes. Worked: Yes.
+- Asked: Modernize the visual guidance in spec.md and suggest a fix for the pinball game. Changed: Replaced the Look and feel guidance, updated the final refinement stage for desktop layout, and recorded the request. Worked: Spec updated; pinball suggestion provided without changing game code.
+- Asked: Fix the pinball game. Changed: Added ball-flipper segment collisions with upward flipper hits and corrected bumper collision response with per-contact score tracking. Worked: Code updated; GUI and tests not run.

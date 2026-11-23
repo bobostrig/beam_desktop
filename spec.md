@@ -2,6 +2,7 @@
 - Python desktop app using Tkinter, started with `python app.py`
 - Calculations with numpy, kept in their own module, separate from
   the window code
+- The calculation module must be importable and verifiable without launching the desktop app.
 - Diagrams drawn with matplotlib, embedded in the window
 # Project Specification
 
@@ -32,13 +33,14 @@ Whether design limits are entered by users or supplied by the app.
 - Pass or fail for bending and deflection
 
 ## Look and feel
-- Use a clean, professional engineering-notebook style.
-- Use Georgia as the main serif font, with Cambria and Times New Roman as fallbacks. Use a simple sans-serif for graph labels and controls.
-- Use a warm off-white background (`#F6F4EF`), white panels (`#FFFFFF`), charcoal text (`#23272F`), and navy headings (`#23395B`).
+- Use a modern engineering-workbench style in a resizable desktop window. Keep beam analysis as the main view, with inputs on the left and the beam, diagrams, reactions, and design checks on the right.
+- Use a pale blue background (`#EAF2FA`), white content panels, charcoal text (`#23272F`), and deep navy headings (`#23395B`). Use consistent spacing, restrained borders, and clear visual hierarchy.
+- Use a clean sans-serif font for headings, controls, and graph labels, with consistent typography across the app.
 - Distinguish the shear, moment, and deflection graphs with teal (`#2A7886`), blue (`#0072B2`), and burnt orange (`#D55E00`).
-- Show a faint BYU logo as a background watermark without reducing the readability of text or graphs.
-- Open with an example beam loaded.
--inputs in a panel on the left and the beam and diagrams on the right and a window that can be resized. Remove th elines about phones
+- Keep the BYU watermark visible but faint enough that it does not reduce text or diagram readability.
+- Show validation states with readable pass and fail labels, not color alone.
+- Open with the example beam loaded and its results visible.
+- Keep Cougar Pinball available as a secondary view. Retain the animated mascot and game behavior, and provide a way to pause animations.
 
 ## Validation
 imply supported, 30 ft, W18x35, uniform 2 kips/ft from 0 to 15 ft
@@ -53,4 +55,4 @@ Shear strength, bearing, connection design, load combinations, continuous beams,
 2. **Input behavior:** Make support, member, material, load, unit, and design-limit controls usable. Support adding and removing point and uniform loads, and show each load on the beam illustration.
 3. **Beam response:** Calculate support reactions, shear, moment, and deflection for the supported beam types and loads. Update the beam illustration and three plots when inputs change.
 4. **Design checks:** Calculate maximum bending stress and compare it with the selected allowable value. Compare maximum deflection with the selected limit and show pass/fail results; do not add a shear-strength check.
-5. **Validation and refinement:** Check the example against the Validation values, address edge cases for supported inputs, and refine labels, units, layout, and mobile behavior.
+5. **Validation and refinement:** Check the example against the Validation values, address edge cases for supported inputs, and refine labels, units, and the resizable desktop layout.
