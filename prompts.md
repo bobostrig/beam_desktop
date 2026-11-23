@@ -18,3 +18,5 @@
 - Asked: Move the Calculation sheet button to the top beside File. Changed: Moved its command from the reactions row to the top menu bar alongside File and Export results. Worked: Yes.
 - Asked: Check the validation again after moving the PDF command. Changed: Recompiled app modules, ran all four calculation tests, and reran the spec case after correcting a command quoting typo. Worked: Yes; tests passed and reactions/moment matched.
 - Asked: Write a short README describing the app, package installation, and startup command. Changed: Added README.md with the overview, requirements installation command, and `python app.py` startup command. Worked: Yes.
+- Asked: Add the beam equations to README.md. Changed: Added equilibrium, shear, moment, moment-curvature, bending stress, boundary-condition, and unit-convention equations. Worked: Yes.
+- Asked: Commit the pending changes. Changed: Recorded the commit request in prompts.md; pending README equation additions and prompt log are to be committed. Worked: Commit pending.
