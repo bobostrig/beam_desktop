@@ -1,1 +1,4 @@
 - Asked: Create an AGENTS.md at the top level containing one specified line. Changed: Added AGENTS.md with that line. Worked: Yes.
+- Asked: Suggest a blue background while keeping the watermark and offer other design suggestions. Changed: Recorded this request in prompts.md; no specification or app changes. Worked: Yes.
+- Asked: Keep beam analysis as the main view. Changed: Recorded this preference in prompts.md; no app or specification changes. Worked: Yes.
+- Asked: Commit the current workspace changes. Changed: Recorded this request in prompts.md before committing. Worked: Yes.
