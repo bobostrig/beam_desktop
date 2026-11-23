@@ -17,3 +17,4 @@
 - Asked: Add the Calculation sheet PDF feature with BYU at the top and update the spec. Changed: Added a PDF export button/report with inputs, reactions, response diagrams, and design checks; added the requirement to spec.md. Worked: Implemented; GUI and export were not run.
 - Asked: Move the Calculation sheet button to the top beside File. Changed: Moved its command from the reactions row to the top menu bar alongside File and Export results. Worked: Yes.
 - Asked: Check the validation again after moving the PDF command. Changed: Recompiled app modules, ran all four calculation tests, and reran the spec case after correcting a command quoting typo. Worked: Yes; tests passed and reactions/moment matched.
+- Asked: Write a short README describing the app, package installation, and startup command. Changed: Added README.md with the overview, requirements installation command, and `python app.py` startup command. Worked: Yes.
