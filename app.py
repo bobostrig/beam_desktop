@@ -3,8 +3,11 @@ import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import json
 import os
+import csv
+import textwrap
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.figure import Figure
 
 from beam_calculations import Load, analyze_beam
@@ -21,6 +24,7 @@ class BeamDesigner:
         root.minsize(900, 650)
         root.configure(bg=PAPER)
         self.current_file = None
+        self.latest_results = None
         self.loads = [dict(kind="uniform", magnitude="2", direction="Downward", start="0", end="15")]
         self.vars = {}
         self._make_styles()
@@ -62,6 +66,8 @@ class BeamDesigner:
         file_menu.add_command(label="Save", accelerator="Ctrl+S", command=self._save_design)
         file_menu.add_command(label="Open…", accelerator="Ctrl+O", command=self._open_design)
         menu.add_cascade(label="File", menu=file_menu)
+        menu.add_command(label="Export results", command=self._export_results)
+        menu.add_command(label="Calculation sheet (PDF)", command=self._export_calculation_sheet)
         self.root.configure(menu=menu)
         self.root.bind("<Control-s>", lambda _event: self._save_design())
         self.root.bind("<Control-o>", lambda _event: self._open_design())
@@ -192,7 +198,9 @@ class BeamDesigner:
         ttk.Label(beam_panel,text="Beam and applied loads",style="Section.TLabel").pack(anchor="w")
         self.beam_fig=Figure(figsize=(8,1.7),dpi=90); self.beam_ax=self.beam_fig.add_subplot(111)
         self.beam_canvas=FigureCanvasTkAgg(self.beam_fig,master=beam_panel); self.beam_canvas.get_tk_widget().pack(fill="x")
-        self.reaction_label=ttk.Label(right,text="",style="Section.TLabel"); self.reaction_label.grid(row=1,column=0,sticky="w",pady=(0,5))
+        result_bar=ttk.Frame(right,style="App.TFrame"); result_bar.grid(row=1,column=0,sticky="ew",pady=(0,5))
+        result_bar.columnconfigure(0,weight=1)
+        self.reaction_label=ttk.Label(result_bar,text="",style="Section.TLabel"); self.reaction_label.grid(row=0,column=0,sticky="w")
         self.plot_frame=ttk.Frame(right,style="App.TFrame"); self.plot_frame.grid(row=2,column=0,sticky="nsew")
         self.plot_frame.columnconfigure((0,1),weight=1); self.plot_frame.rowconfigure((0,1),weight=1)
         self.fig=Figure(figsize=(8,5),dpi=90,facecolor=WHITE)
@@ -257,7 +265,9 @@ class BeamDesigner:
             lim=float(self.vars["custom_limit"].get()) if self.vars["limit_type"].get()=="Custom" else None
             r=analyze_beam(self.vars["support"].get(),span,loads,E,I,S,Fb,lim)
         except (ValueError,TypeError) as e:
+            self.latest_results=None
             self.status.configure(text=f"Check inputs: {e}",foreground="#9B2C20"); return
+        self.latest_results=r
         self._draw_beam(span)
         self.reaction_label.configure(text=f"Reactions: left {r.reaction_left_kip:.3f} kip   |   right {r.reaction_right_kip:.3f} kip")
         titles=[("Shear V(x)",r.shear_kip,"kip",TEAL),("Moment M(x)",r.moment_kip_ft,"kip-ft",BLUE),("Deflection v(x)",r.deflection_in,"in",ORANGE)]
@@ -274,6 +284,76 @@ class BeamDesigner:
         ax.text(.04,.17,"Shear strength is not checked.",fontsize=9,color=INK)
         self.fig.tight_layout(); self.plot_canvas.draw_idle()
         self.status.configure(text="Analysis updated. Educational design aid; verify engineering assumptions before use.",foreground=INK)
+
+    def _export_results(self):
+        if self.latest_results is None:
+            messagebox.showerror("Cannot export results", "Enter valid beam inputs before exporting.", parent=self.root)
+            return
+        path=filedialog.asksaveasfilename(parent=self.root,title="Export beam results",
+            defaultextension=".csv",filetypes=[("CSV file (Excel)","*.csv"),("All files","*.*")])
+        if not path: return
+        try:
+            with open(path,"w",newline="",encoding="utf-8-sig") as stream:
+                writer=csv.writer(stream)
+                writer.writerow(["x (ft)","V (kip)","M (kip-ft)","v (in)"])
+                r=self.latest_results
+                writer.writerows(zip(r.x_ft,r.shear_kip,r.moment_kip_ft,r.deflection_in))
+            self.status.configure(text=f"Results exported to {os.path.basename(path)}",foreground=INK)
+        except OSError as exc:
+            messagebox.showerror("Export failed", str(exc), parent=self.root)
+
+    def _export_calculation_sheet(self):
+        if self.latest_results is None:
+            messagebox.showerror("Cannot create calculation sheet", "Enter valid beam inputs before exporting.", parent=self.root)
+            return
+        path=filedialog.asksaveasfilename(parent=self.root,title="Save calculation sheet",
+            defaultextension=".pdf",filetypes=[("PDF document","*.pdf"),("All files","*.*")])
+        if not path: return
+        try:
+            data=self._read_design(); r=self.latest_results
+            load_text=[]
+            for i,load in enumerate(data["loads"],1):
+                if load["kind"]=="point":
+                    load_text.append(f"{i}: point {load['magnitude']:g} kip {load['direction'].lower()} at {load['position']:g} ft")
+                else:
+                    load_text.append(f"{i}: uniform {load['magnitude']:g} kip/ft {load['direction'].lower()} from {load['start']:g} to {load['end']:g} ft")
+            limit_text=(f"L/360 = {r.deflection_limit_in:.4f} in" if data["deflection_limit"]["type"]=="L / 360"
+                        else f"Custom = {r.deflection_limit_in:.4f} in")
+            p=data["properties"]
+            info=(f"Support: {data['support']}    Span: {data['span_ft']:g} ft    Section: {data['member']}\n"
+                  f"E: {p['E_ksi']:g} ksi    S: {p['S_in3']:g} in^3    I: {p['I_in4']:g} in^4    Allowable Fb: {p['allowable_ksi']:g} ksi\n"
+                  f"Deflection limit: {limit_text}\nLoads: " + ("; ".join(load_text) if load_text else "None"))
+            info_lines="\n".join(textwrap.wrap(info, width=168, break_long_words=False, break_on_hyphens=False))
+            line_count=info_lines.count("\n")+1
+            chart_top=max(.60,.84-line_count*.022)
+            figure=Figure(figsize=(11.7,8.3),facecolor="white")
+            figure.text(.045,.975,"BYU",ha="left",va="top",fontsize=17,weight="bold",color=NAVY)
+            figure.text(.5,.975,"BEAM DESIGN CALCULATION SHEET",ha="center",va="top",fontsize=15,weight="bold",color=NAVY)
+            figure.text(.045,.925,info_lines,ha="left",va="top",fontsize=max(6,9-line_count*.12),color=INK,family="sans-serif")
+            bend_ok=r.bending_stress_ksi<=float(self.vars["Fb"].get())
+            deflection=float(max(abs(r.deflection_in)))
+            defl_ok=deflection<=r.deflection_limit_in
+            summary=(f"Reactions: left {r.reaction_left_kip:.3f} kip; right {r.reaction_right_kip:.3f} kip     "
+                     f"Bending: {'PASS' if bend_ok else 'FAIL'} ({r.bending_stress_ksi:.3f} / {float(self.vars['Fb'].get()):.3f} ksi)     "
+                     f"Deflection: {'PASS' if defl_ok else 'FAIL'} ({deflection:.4f} / {r.deflection_limit_in:.4f} in)")
+            figure.text(.045,chart_top-.035,summary,ha="left",va="top",fontsize=9,color=INK)
+            colors=[TEAL,BLUE,ORANGE]
+            series=[(r.shear_kip,"Shear V(x)","V (kip)"),(r.moment_kip_ft,"Moment M(x)","M (kip-ft)"),(r.deflection_in,"Deflection v(x)","v (in)")]
+            bottom=.12
+            height=max(.28,chart_top-.20)
+            for i,(values,title,ylabel) in enumerate(series):
+                ax=figure.add_axes([.07+i*.31,bottom,.27,height])
+                ax.plot(r.x_ft,values,color=colors[i],lw=1.7)
+                ax.axhline(0,color="#9aa4ad",lw=.6)
+                ax.set_title(title,fontsize=10,color=NAVY,loc="left")
+                ax.set_xlabel("Position x (ft)",fontsize=8); ax.set_ylabel(ylabel,fontsize=8)
+                ax.tick_params(labelsize=7); ax.grid(alpha=.18)
+            figure.text(.97,.035,"Educational design aid",ha="right",fontsize=7,color="#69717b")
+            with PdfPages(path) as pdf:
+                pdf.savefig(figure,bbox_inches="tight")
+            self.status.configure(text=f"Calculation sheet saved to {os.path.basename(path)}",foreground=INK)
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            messagebox.showerror("PDF export failed", str(exc), parent=self.root)
 
     def _draw_beam(self,span):
         ax=self.beam_ax; ax.clear(); ax.set_xlim(-.05*span,1.05*span); ax.set_ylim(-1.5,2.5); ax.axis("off")

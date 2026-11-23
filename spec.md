@@ -37,6 +37,8 @@ Whether design limits are entered by users or supplied by the app.
 - Support reaction values
 - The maximum and minimum value on each graph and where each occurs
 - Pass or fail for bending and deflection
+- Provide an **Export results** button that saves the current beam response table as a CSV file that opens in Excel. Include one row for each calculation position along the beam, with columns for position `x` (ft), shear `V` (kip), moment `M` (kip-ft), and deflection `v` (in). Use a save dialog so the user can choose the filename and location.
+- Provide a **Calculation sheet** button that saves a printable PDF with the beam inputs listed at the top, followed by support reactions, shear, moment, and deflection diagrams, and bending and deflection checks. Show “BYU” at the top of every page. Use a save dialog so the user can choose the filename and location.
 
 ## Look and feel
 - Use a modern engineering-workbench style in a resizable desktop window. Keep beam analysis as the main view, with inputs on the left and the beam, diagrams, reactions, and design checks on the right.
