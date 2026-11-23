@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import json
+import os
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -124,7 +125,7 @@ class BeamDesigner:
         try:
             with open(path, "w", encoding="utf-8") as stream: json.dump(data, stream, indent=2)
             self.current_file = path
-            self.root.title(f"Beam Designer — {path.rsplit('/', 1)[-1].rsplit('\\\\', 1)[-1]}")
+            self.root.title(f"Beam Designer — {os.path.basename(path)}")
         except OSError as exc:
             messagebox.showerror("Save failed", str(exc), parent=self.root)
 
@@ -148,7 +149,7 @@ class BeamDesigner:
                 self.loads.append(load)
             self.current_file=path
             self._render_load_editors(); self.refresh()
-            self.root.title(f"Beam Designer — {path.rsplit('/', 1)[-1].rsplit('\\\\', 1)[-1]}")
+            self.root.title(f"Beam Designer — {os.path.basename(path)}")
         except (OSError, json.JSONDecodeError, ValueError, TypeError, KeyError) as exc:
             messagebox.showerror("Open failed", f"Could not open this beam file.\n\n{exc}", parent=self.root)
 

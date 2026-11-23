@@ -18,6 +18,12 @@ Units for all values, not just span.
 How users select a steel or lumber member, and where its material properties come from.
 Whether design limits are entered by users or supplied by the app.
 
+## File operations
+- Provide a File menu with Save and Open commands.
+- Save the beam setup to a JSON file, including support type, span, selected section and its properties, deflection limit settings, and all point and uniform loads.
+- Open a saved JSON file and restore the beam setup. Recalculate and display the results after opening.
+- Use file dialogs with a JSON file filter, and show a clear error if a file cannot be opened or contains invalid beam data.
+
 ## Calculations
 - Find support reactions using equilibrium: `ΣFy = 0` and `ΣM = 0`.
 - Use standard beam equations for the selected supports and loads to calculate shear `V(x)`, bending moment `M(x)`, and deflection `v(x)`.

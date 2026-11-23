@@ -106,6 +106,8 @@ def analyze_beam(support: str, span_ft: float, loads: Sequence[Load],
     abs_m = float(np.max(np.abs(moment_kipft)))
     stress = abs_m * 12.0 / S_in3
     limit = deflection_limit_in if deflection_limit_in is not None else span_ft * 12.0 / 360.0
+    if not np.isfinite(limit) or limit <= 0:
+        raise ValueError("Deflection limit must be a positive finite value")
     series = {"shear": shear, "moment": moment_kipft, "deflection": v}
     extrema = {}
     for name, values in series.items():
