@@ -1,0 +1,1 @@
+- Asked: Create an AGENTS.md at the top level containing one specified line. Changed: Added AGENTS.md with that line. Worked: Yes.
