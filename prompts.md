@@ -20,3 +20,5 @@
 - Asked: Write a short README describing the app, package installation, and startup command. Changed: Added README.md with the overview, requirements installation command, and `python app.py` startup command. Worked: Yes.
 - Asked: Add the beam equations to README.md. Changed: Added equilibrium, shear, moment, moment-curvature, bending stress, boundary-condition, and unit-convention equations. Worked: Yes.
 - Asked: Commit the pending changes. Changed: Recorded the commit request in prompts.md; pending README equation additions and prompt log are to be committed. Worked: Commit pending.
+- Asked: Add a worked case with a picture of the loads and diagrams to README.md. Changed: Added the 30 ft partial-uniform-load validation example and an SVG figure showing the beam, load, reactions, and response diagrams. Worked: Yes.
+- Asked: Commit and sync the README example and illustration changes. Changed: Recorded this request before committing README.md, assets/validation_case.svg, and prompts.md. Worked: Commit and sync pending.

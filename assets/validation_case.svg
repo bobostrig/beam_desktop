@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="760" viewBox="0 0 1100 760" role="img" aria-labelledby="title desc">
+  <title id="title">Beam Designer validation example</title>
+  <desc id="desc">A 30 foot simply supported beam with a two kip per foot downward uniform load over the left half, reactions, and shear, moment, and deflection diagrams.</desc>
+  <rect width="1100" height="760" rx="18" fill="#EAF2FA"/>
+  <text x="48" y="52" fill="#23395B" font-family="Arial,sans-serif" font-size="25" font-weight="700">Validation example · 30 ft simply supported beam</text>
+  <text x="48" y="82" fill="#465364" font-family="Arial,sans-serif" font-size="16">2 kip/ft downward over x = 0–15 ft · W18x35 · E = 29,000 ksi · S = 39.4 in³ · I = 510 in⁴</text>
+  <rect x="42" y="108" width="1016" height="210" rx="12" fill="#fff" stroke="#d6e0e9"/>
+  <text x="66" y="142" fill="#23395B" font-family="Arial,sans-serif" font-size="18" font-weight="700">Beam and loads</text>
+  <line x1="130" y1="230" x2="970" y2="230" stroke="#23395B" stroke-width="10" stroke-linecap="round"/>
+  <path d="M130 242l-18 28h36zM970 242l-18 28h36z" fill="#23395B"/>
+  <g stroke="#D55E00" stroke-width="2" marker-end="url(#down)">
+    <line x1="155" y1="180" x2="155" y2="215"/><line x1="205" y1="180" x2="205" y2="215"/><line x1="255" y1="180" x2="255" y2="215"/><line x1="305" y1="180" x2="305" y2="215"/><line x1="355" y1="180" x2="355" y2="215"/><line x1="405" y1="180" x2="405" y2="215"/><line x1="455" y1="180" x2="455" y2="215"/><line x1="505" y1="180" x2="505" y2="215"/><line x1="550" y1="180" x2="550" y2="215"/>
+  </g>
+  <line x1="145" y1="176" x2="560" y2="176" stroke="#D55E00" stroke-width="3"/>
+  <text x="352" y="163" text-anchor="middle" fill="#D55E00" font-family="Arial,sans-serif" font-size="15" font-weight="700">w = 2 kip/ft downward</text>
+  <g stroke="#2A7886" stroke-width="3" marker-end="url(#up)">
+    <line x1="130" y1="284" x2="130" y2="246"/><line x1="970" y1="284" x2="970" y2="246"/>
+  </g>
+  <text x="130" y="304" text-anchor="middle" fill="#2A7886" font-family="Arial,sans-serif" font-size="14" font-weight="700">RA = 22.5 kip</text>
+  <text x="970" y="304" text-anchor="middle" fill="#2A7886" font-family="Arial,sans-serif" font-size="14" font-weight="700">RB = 7.5 kip</text>
+  <text x="130" y="267" text-anchor="middle" fill="#23395B" font-family="Arial,sans-serif" font-size="12">A</text>
+  <text x="970" y="267" text-anchor="middle" fill="#23395B" font-family="Arial,sans-serif" font-size="12">B</text>
+  <text x="550" y="292" text-anchor="middle" fill="#465364" font-family="Arial,sans-serif" font-size="13">15 ft loaded</text>
+  <text x="550" y="310" text-anchor="middle" fill="#465364" font-family="Arial,sans-serif" font-size="13">30 ft total span</text>
+  <defs>
+    <marker id="down" markerWidth="8" markerHeight="8" refX="4" refY="6" orient="auto"><path d="M0 0L4 6 8 0" fill="#D55E00"/></marker>
+    <marker id="up" markerWidth="8" markerHeight="8" refX="4" refY="2" orient="auto"><path d="M0 8L4 2 8 8" fill="#2A7886"/></marker>
+  </defs>
+  <g font-family="Arial,sans-serif">
+    <rect x="42" y="336" width="1016" height="380" rx="12" fill="#fff" stroke="#d6e0e9"/>
+    <text x="66" y="370" fill="#23395B" font-size="18" font-weight="700">Response diagrams</text>
+    <g stroke="#aab6c2" stroke-width="1.5" fill="none">
+      <path d="M105 425V510H505M595 425V510H995M105 570V655H505M595 570V655H995"/>
+    </g>
+    <text x="105" y="405" fill="#2A7886" font-size="15" font-weight="700">Shear V(x) · kip</text>
+    <path d="M115 438L315 490L315 490L495 490" fill="none" stroke="#2A7886" stroke-width="4"/>
+    <line x1="115" y1="438" x2="115" y2="510" stroke="#2A7886" stroke-width="2" stroke-dasharray="4 4"/>
+    <text x="118" y="432" fill="#465364" font-size="12">+22.5</text><text x="322" y="505" fill="#465364" font-size="12">−7.5</text><text x="475" y="505" fill="#465364" font-size="12">x (ft)</text>
+    <text x="595" y="405" fill="#0072B2" font-size="15" font-weight="700">Moment M(x) · kip-ft</text>
+    <path d="M605 490 Q675 445 746.9 423 Q770 425 795 430.4 L985 490" fill="none" stroke="#0072B2" stroke-width="4"/>
+    <circle cx="746.9" cy="423" r="5" fill="#0072B2"/><text x="746.9" y="414" text-anchor="middle" fill="#465364" font-size="12">126.6 at 11.25 ft</text>
+    <text x="965" y="505" fill="#465364" font-size="12">x (ft)</text>
+    <text x="105" y="550" fill="#D55E00" font-size="15" font-weight="700">Deflection v(x) · in</text>
+    <path d="M115 585 C180 605 235 650 290 645 C370 640 430 605 495 585" fill="none" stroke="#D55E00" stroke-width="4"/>
+    <text x="115" y="680" fill="#465364" font-size="12">0</text><text x="485" y="680" fill="#465364" font-size="12">30</text><text x="465" y="655" fill="#465364" font-size="12">x (ft)</text>
+    <text x="595" y="550" fill="#23395B" font-size="15" font-weight="700">Validation results</text>
+    <text x="615" y="590" fill="#23272F" font-size="15">Left reaction: <tspan font-weight="700">22.5 kip</tspan></text>
+    <text x="615" y="622" fill="#23272F" font-size="15">Right reaction: <tspan font-weight="700">7.5 kip</tspan></text>
+    <text x="615" y="654" fill="#23272F" font-size="15">Maximum moment: <tspan font-weight="700">126.6 kip-ft at 11.25 ft</tspan></text>
+  </g>
+</svg>
